@@ -494,6 +494,116 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
+.footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 18px;
+}
+
+.footer__legal a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.footer__legal-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 0;
+  color: inherit;
+  font-size: inherit;
+  padding: 0;
+  cursor: pointer;
+}
+
+.footer__legal-btn:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* ---------- Map cookie placeholder ---------- */
+.location__map-placeholder {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 12px;
+  padding: 32px;
+  background: var(--color-cream);
+  color: var(--color-text-light);
+}
+
+.location__map-placeholder p {
+  margin: 0;
+  max-width: 320px;
+}
+
+.location__map-placeholder a {
+  text-decoration: underline;
+  color: var(--color-brown);
+}
+
+/* ---------- Cookie consent banner ---------- */
+.cookie-banner {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 100;
+  background: var(--color-dark);
+  color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.2);
+}
+
+.cookie-banner__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.cookie-banner__icon {
+  flex-shrink: 0;
+  color: var(--color-accent);
+}
+
+.cookie-banner__text {
+  flex: 1 1 320px;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.cookie-banner__text a {
+  text-decoration: underline;
+  color: #fff;
+}
+
+.cookie-banner__actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.cookie-banner__actions .btn {
+  padding: 10px 20px;
+  font-size: 0.9rem;
+}
+
+.cookie-banner__actions .btn-outline-dark {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+
+.cookie-banner__actions .btn-outline-dark:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
 /* ---------- Floating call button (mobile) ---------- */
 .fab {
   display: none;
@@ -579,6 +689,20 @@
 
   .section {
     padding: 48px 0;
+  }
+
+  .cookie-banner__inner {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .cookie-banner__actions {
+    justify-content: stretch;
+  }
+
+  .cookie-banner__actions .btn {
+    flex: 1;
   }
 }
 

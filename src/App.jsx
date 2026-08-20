@@ -15,8 +15,11 @@ import {
   MessageCircle,
   Clock,
   ChevronRight,
+  Cookie,
 } from 'lucide-react'
 import './App.css'
+import CookieConsent from './CookieConsent.jsx'
+import { readConsent, writeConsent } from './lib/cookieConsent.js'
 
 const PHONE_DISPLAY = '690 84 45 52'
 const WHATSAPP_NUMBER = '34690844552'
@@ -352,7 +355,7 @@ function Reviews() {
   )
 }
 
-function LocationContact() {
+function LocationContact({ mapsAllowed, onAcceptMaps }) {
   return (
     <section id="ubicacion" className="section location">
       <div className="container location__grid">
@@ -407,20 +410,36 @@ function LocationContact() {
         </div>
 
         <div className="location__map">
-          <iframe
-            title="Mapa - Bar Casa Paco / Estanco, Cerredo"
-            src="https://www.google.com/maps?q=Cafeter%C3%ADa+Casa+Paco+Estanco+Cerredo+Asturias&output=embed"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            allowFullScreen
-          />
+          {mapsAllowed ? (
+            <iframe
+              title="Mapa - Bar Casa Paco / Estanco, Cerredo"
+              src="https://www.google.com/maps?q=Cafeter%C3%ADa+Casa+Paco+Estanco+Cerredo+Asturias&output=embed"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
+          ) : (
+            <div className="location__map-placeholder">
+              <MapPin size={28} strokeWidth={1.5} />
+              <p>
+                El mapa usa cookies de terceros de Google. Acéptalas para verlo aquí, o consulta{' '}
+                <a href={MAPS_URL} target="_blank" rel="noopener noreferrer">
+                  la ubicación directamente en Google Maps
+                </a>
+                .
+              </p>
+              <button type="button" className="btn btn-primary" onClick={onAcceptMaps}>
+                Aceptar cookies del mapa
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>
   )
 }
 
-function Footer() {
+function Footer({ onOpenCookieSettings }) {
   return (
     <footer className="footer">
       <div className="container footer__inner">
@@ -428,6 +447,15 @@ function Footer() {
           <strong>Bar Estanco Casa Paco</strong>
           <p>{ADDRESS}</p>
         </div>
+        <nav className="footer__legal" aria-label="Legal">
+          <a href={`${import.meta.env.BASE_URL}aviso-legal.html`}>Aviso legal</a>
+          <a href={`${import.meta.env.BASE_URL}politica-privacidad.html`}>Privacidad</a>
+          <a href={`${import.meta.env.BASE_URL}politica-cookies.html`}>Cookies</a>
+          <button type="button" className="footer__legal-btn" onClick={onOpenCookieSettings}>
+            <Cookie size={14} strokeWidth={1.75} />
+            Configurar cookies
+          </button>
+        </nav>
         <p className="footer__copy">
           © {new Date().getFullYear()} Casa Paco. Página informativa no oficial.
         </p>
@@ -437,6 +465,21 @@ function Footer() {
 }
 
 export default function App() {
+  const [consent, setConsent] = useState(() => readConsent())
+  const [bannerOpen, setBannerOpen] = useState(() => readConsent() === null)
+
+  const acceptAll = () => {
+    setConsent(writeConsent(true))
+    setBannerOpen(false)
+  }
+
+  const rejectNonEssential = () => {
+    setConsent(writeConsent(false))
+    setBannerOpen(false)
+  }
+
+  const openCookieSettings = () => setBannerOpen(true)
+
   return (
     <>
       <Header />
@@ -445,12 +488,13 @@ export default function App() {
         <About />
         <Hours />
         <Reviews />
-        <LocationContact />
+        <LocationContact mapsAllowed={Boolean(consent?.maps)} onAcceptMaps={acceptAll} />
       </main>
-      <Footer />
+      <Footer onOpenCookieSettings={openCookieSettings} />
       <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="fab" aria-label="Escríbenos por WhatsApp">
         <MessageCircle size={24} strokeWidth={1.75} />
       </a>
+      <CookieConsent visible={bannerOpen} onAccept={acceptAll} onReject={rejectNonEssential} />
     </>
   )
 }

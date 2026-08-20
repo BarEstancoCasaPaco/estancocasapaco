@@ -165,7 +165,7 @@ function Header() {
 
   return (
     <header className={`header ${scrolled ? 'header--scrolled' : ''}`}>
-      <div className="container header__inner">
+      <div className="header__inner">
         <a href="#inicio" className="header__brand" onClick={closeMenu}>
           <img
             src={`${import.meta.env.BASE_URL}logo.svg`}

@@ -696,7 +696,17 @@
   .cookie-banner__inner {
     flex-direction: column;
     align-items: stretch;
-    text-align: center;
+    padding: 14px 18px;
+    gap: 10px;
+  }
+
+  .cookie-banner__icon {
+    display: none;
+  }
+
+  .cookie-banner__text {
+    font-size: 0.82rem;
+    line-height: 1.4;
   }
 
   .cookie-banner__actions {
@@ -705,6 +715,7 @@
 
   .cookie-banner__actions .btn {
     flex: 1;
+    padding: 10px 16px;
   }
 }
 
